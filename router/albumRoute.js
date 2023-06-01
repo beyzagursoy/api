@@ -3,7 +3,7 @@ var router = express.Router();
 const albumController = require("../controller/AlbumController");
 
 router
-  .post("users/:userId/albums", albumController.createAlbum)
+  .post("/users/:userId/albums", albumController.createAlbum)
   .post("/albums/:albumId/add/musics/:songId", albumController.addSongToAlbum)
   .get("/albums/:albumId", albumController.getAlbumById)
   .get("/albums/", albumController.getAllAlbums)

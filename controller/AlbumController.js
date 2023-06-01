@@ -22,7 +22,10 @@ const createAlbum = async (req, res) => {
       { $push: { albums: album._id } },
       { new: true }
     );
-    cevapOlustur(res, 200, { message: "Albüm başariyla oluşturuldu.", album });
+    return cevapOlustur(res, 200, {
+      message: "Albüm başariyla oluşturuldu.",
+      album,
+    });
   } catch (error) {
     console.error("Hata:", error);
     res.status(500).json({ error: "Bir hata oluştu." });

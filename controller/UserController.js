@@ -68,7 +68,7 @@ const getUser = async function (req, res) {
 };
 
 const changePassword = async (req, res) => {
-  const { userId } = req.params;
+  const { _id: userId } = req.user;
 
   const { currentPassword, newPassword } = req.body;
 
@@ -83,7 +83,7 @@ const changePassword = async (req, res) => {
       return res.status(404).json({ error: "Kullanıcı bulunamadı." });
     }
 
-    const isPasswordValid = await user.sifreDogrula(currentPassword);
+    const isPasswordValid = await user.sifreDogrumu(currentPassword);
 
     if (!isPasswordValid) {
       return cevapOlustur(res, 401, { error: "Mevcut şifre hatalı." });
@@ -116,12 +116,12 @@ const updateUser = async function (req, res) {
       user.image = image;
       try {
         const save = await user.save();
-        cevapOlustur(res, 400, save);
+        cevapOlustur(res, 200, save);
       } catch (error) {
         cevapOlustur(res, 400, error.message);
       }
     } catch (error) {
-      cevapOlustur(res, 400, error.message);
+      cevapOlustur(res, 500, error.message);
     }
   }
 };
