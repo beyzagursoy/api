@@ -11,7 +11,11 @@ router
     auth.verifyToken,
     musicController.LikeSong
   )
-  .delete("/users/:userId/unlike/music/:songId", musicController.unLikeSong)
+  .delete(
+    "/users/:userId/unlike/music/:songId",
+    auth.verifyToken,
+    musicController.unLikeSong
+  )
   .get("/songs/search", musicController.searchSongs)
   .get("/songs/sort", musicController.getSongsByCreatedAt);
 

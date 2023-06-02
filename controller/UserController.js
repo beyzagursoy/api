@@ -68,7 +68,9 @@ const getUser = async function (req, res) {
 };
 
 const changePassword = async (req, res) => {
-  const { _id: userId } = req.user;
+  if (!req.session.user)
+    return cevapOlustur(res, 401, { error: "Oturum bulunamadi." });
+  const { _id: userId } = req.session.user;
 
   const { currentPassword, newPassword } = req.body;
 

@@ -70,6 +70,11 @@ const addSongToAlbum = async (req, res) => {
     if (!album) {
       return res.status(404).json({ error: "Albüm bulunamadı." });
     }
+    const isSongLiked = album.albums.some((a) => a.equals(a._id));
+
+    if (isSongLiked) {
+      return cevapOlustur(res, 400, { error: "Bu şarkı zaten beğenildi." });
+    }
     album.musics.push(songId);
     await album.save();
     return cevapOlustur(res, 200, {
