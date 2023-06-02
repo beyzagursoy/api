@@ -52,6 +52,7 @@ const LikeSong = async (req, res) => {
     const isSongLiked = user.favoriteSongs.some((likedSong) =>
       likedSong.equals(song._id)
     );
+
     if (isSongLiked) {
       return cevapOlustur(res, 400, { error: "Bu şarkı zaten beğenildi." });
     }
