@@ -27,6 +27,29 @@ const kayitOl = async function (req, res) {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return cevapOlustur(res, 400, { hata: "tum alanlar gerekli" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "Kullanici bulunamadi." });
+    }
+
+    await user.remove();
+
+    res.json({ message: "Kullanici başariyla silindi." });
+  } catch (error) {
+    console.error("Hata:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const loggedInUser = (req, res) => {
   if (!req.session.user)
     return cevapOlustur(res, 401, { error: "Oturum bulunamadi." });
@@ -152,6 +175,7 @@ passport.deserializeUser(function (user, done) {
 module.exports = {
   kayitOl,
   getUser,
+  deleteUser,
   updateUser,
   getUsers,
   girisYap,

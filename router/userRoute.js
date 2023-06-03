@@ -11,6 +11,7 @@ router
   .get("/users/:userid", userController.getUser)
   .put("/users/:userid", auth.verifyToken, userController.updateUser)
   .put("/change-password", auth.verifyToken, userController.changePassword)
-  .get("/me", userController.loggedInUser);
+  .get("/me", userController.loggedInUser)
+  .delete("/delete-account", userController.deleteUser);
 
 module.exports = router;

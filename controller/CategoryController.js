@@ -25,20 +25,23 @@ const createCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   const { categoryId } = req.params;
+
   if (!categoryId) {
-    return cevapOlustur(res, 400, { hata: "tum alanlar gerekli" });
+    return cevapOlustur(res, 400, { hata: "Tüm alanlar gereklidir." });
   }
+
   try {
-    const result = await Category.findByIdAndRemove(categoryId);
-    if (!result) {
-      cevapOlustur(res, 200, {
-        durum: "Category Silindi!",
-      });
-    } else {
-      cevapOlustur(res, 404, { mesaj: "category bulunamadi" });
+    const category = await Category.findById(categoryId);
+
+    if (!category) {
+      return cevapOlustur(res, 404, { mesaj: "Kategori bulunamadi." });
     }
+
+    await Category.findByIdAndRemove(categoryId);
+    return cevapOlustur(res, 200, { durum: "Kategori silindi." });
   } catch (error) {
-    cevapOlustur(res, 500, { message: error.message });
+    console.error("Hata:", error);
+    return cevapOlustur(res, 500, { hata: "Bir hata oluştu." });
   }
 };
 
